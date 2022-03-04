@@ -1,0 +1,43 @@
+﻿@model IEnumerable<PruebaTecnicaNET.ViewModels.EmpleadosViewModel.EmpleadoResponse>
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<div class="container p-4">
+    <h2 class="title is-4">Listado de empleados</h2>
+
+    <p>
+        @Html.ActionLink("Nueva Área", "Create", null, htmlAttributes: new { @class = "button is-success" })
+    </p>
+    <table class="table is-striped mt-2 is-success">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.NombreCompleto)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Cedula)
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.NombreCompleto)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Cedula)
+                    </td>
+                    <td>
+                        @Html.ActionLink("Editar", "Edit", new { id = item.IdEmpleado }, new { @class = "button is-success" }) |
+                        @Html.ActionLink("Borrar", "Delete", new { id = item.IdEmpleado }, new { @class = "button is-danger" })
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
