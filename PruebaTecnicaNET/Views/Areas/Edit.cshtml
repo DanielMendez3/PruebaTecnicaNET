@@ -1,0 +1,52 @@
+﻿@model PruebaTecnicaNET.ViewModels.AreasViewModel.EditAreaRequest
+
+@{
+    ViewData["Title"] = "Editar área";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="card p-6">
+    <h1 class="title is-4">Nueva Área</h1>
+
+    <h4 class="title is-6">Formulario</h4>
+    <hr />
+    <div class="columns">
+        <div class="column is-half">
+            <form asp-action="Edit">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <input type="text" asp-for="IdArea" class="is-hidden" />
+                <div class="field">
+                    <label asp-for="Nombre" class="label">Nombre</label>
+                    <div class="control">
+                        <input asp-for="Nombre" class="input is-success" type="text" placeholder="Ingrese un nombre">
+                    </div>
+                    <span asp-validation-for="Nombre" class="help is-danger"></span>
+                </div>
+                <div class="field">
+                    <label asp-for="Descripcion" class="label">Descripción</label>
+                    <div class="control">
+                        <input asp-for="Descripcion" class="input is-success" type="text" placeholder="Ingrese un nombre">
+                    </div>
+                    <span asp-validation-for="Descripcion" class="help is-danger"></span>
+                </div>
+                <div class="field is-grouped">
+                    <p class="control">
+                        <button type="submit" class="button is-success">
+                            Guardar
+                        </button>
+                    </p>
+                    <p class="control">
+                        <a asp-action="Index" class="button is-dark">Cancelar</a>
+                    </p>
+                </div>
+            </form>
+        </div>
+    </div>
+
+
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
+

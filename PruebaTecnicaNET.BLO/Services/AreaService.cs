@@ -15,6 +15,21 @@ namespace PruebaTecnicaNET.BLO.Services
             this._areaRepository = areaRepository;
         }
 
+        public async Task CrearArea(Area area)
+        {
+            await _areaRepository.CrearArea(area);
+        }
+
+        public async Task EditarArea(Area area)
+        {
+            await _areaRepository.EditarArea(area);
+        }
+
+        public async Task EliminarArea(Area area)
+        {
+            await _areaRepository.EliminarArea(area);
+        }
+
         public async Task<Area> GetAreaById(int id)
         {
             return await _areaRepository.GetAreaById(id);

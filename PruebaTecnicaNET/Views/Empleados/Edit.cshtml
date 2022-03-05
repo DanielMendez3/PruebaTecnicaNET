@@ -1,0 +1,86 @@
+﻿@model PruebaTecnicaNET.ViewModels.EmpleadosViewModel.UpdateEmpleadoRequest
+
+@{
+    ViewData["Title"] = "Edit";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="card p-6">
+    <h1 class="title is-4">Editar Empleado</h1>
+
+    <h4 class="title is-6">Formulario</h4>
+    <hr />
+    <div class="columns">
+        <div class="column is-half">
+            <form asp-action="Edit">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                @Html.HiddenFor(m => m.IdEmpleado)
+                <div class="field">
+                    <label asp-for="NombreCompleto" class="label">Nombre</label>
+                    <div class="control">
+                        <input asp-for="NombreCompleto" class="input is-success" type="text" placeholder="Ingrese nombres y apellidos">
+                    </div>
+                    <span asp-validation-for="NombreCompleto" class="help is-danger"></span>
+                </div>
+                <div class="field">
+                    <label asp-for="Cedula" class="label">Cédula</label>
+                    <div class="control">
+                        <input asp-for="Cedula" class="input is-success" type="text" placeholder="Ingrese su número de cédula">
+                    </div>
+                    <span asp-validation-for="Cedula" class="help is-danger"></span>
+                </div>
+                <div class="field">
+                    <label asp-for="Correo" class="label">Correo</label>
+                    <div class="control">
+                        <input asp-for="Correo" class="input is-success" type="text" placeholder="Ingrese su correo electrónico">
+                    </div>
+                    <span asp-validation-for="Correo" class="help is-danger"></span>
+                </div>
+                <div class="field">
+                    <label asp-for="IdArea" class="label">Área</label>
+                    <div class="select">
+                        @Html.DropDownList("IdArea", null, htmlAttributes: new { @class = "", @style = "text-transform: uppercase;" })
+                    </div>
+                    <span asp-validation-for="IdArea" class="help is-danger"></span>
+                </div>
+                <div class="field">
+                    <label asp-for="IdJefe" class="label">Jefe</label>
+                    <div class="select">
+                        @Html.DropDownList("IdJefe", null, htmlAttributes: new { @class = "", @style = "text-transform: uppercase;" })
+                    </div>
+                    <span asp-validation-for="IdJefe" class="help is-danger"></span>
+                </div>
+                <div class="field">
+                    <label asp-for="FechaNacimiento" class="label">Fecha de nacimiento</label>
+                    <div class="control">
+                        <input asp-for="FechaNacimiento" class="input is-success" type="date">
+                    </div>
+                    <span asp-validation-for="FechaNacimiento" class="help is-danger"></span>
+                </div>
+                <div class="field">
+                    <label asp-for="FechaIngreso" class="label">Fecha de ingreso</label>
+                    <div class="control">
+                        <input asp-for="FechaIngreso" class="input is-success" type="date">
+                    </div>
+                    <span asp-validation-for="FechaIngreso" class="help is-danger"></span>
+                </div>
+                @Html.HiddenFor(m => m.Image)
+                <div class="field is-grouped mt-3">
+                    <p class="control">
+                        <button type="submit" class="button is-success">
+                            Guardar
+                        </button>
+                    </p>
+                    <p class="control">
+                        <a asp-action="Index" class="button is-dark">Cancelar</a>
+                    </p>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using PruebaTecnicaNET.BLO.Services;
+using PruebaTecnicaNET.DAL.Models;
 using PruebaTecnicaNET.ViewModels.AreasViewModel;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -18,34 +19,33 @@ namespace PruebaTecnicaNET.Controllers
             _mapper = mapper;
         }
 
-        // GET: AreasController
         public async  Task<ActionResult> Index()
         {
             var areas = await _areaService.GetAreas();
-            var viewModel = _mapper.Map<List<AreaResponse>>(areas);
-            return View(viewModel);
+            var model = _mapper.Map<List<AreaResponse>>(areas);
+            return View(model);
         }
 
-        // GET: AreasController/Details/5
-        public ActionResult Details(int id)
-        {
-            return View();
-        }
-
-        // GET: AreasController/Create
         public ActionResult Create()
         {
             return View();
         }
 
-        // POST: AreasController/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(IFormCollection collection)
+        public async Task<ActionResult> Create([FromForm] CreateAreaRequest areaRequest)
         {
             try
             {
-                return RedirectToAction(nameof(Index));
+                if (ModelState.IsValid)
+                {
+                    //mapeamos modelo
+                    var area = _mapper.Map<Area>(areaRequest);
+                    await _areaService.CrearArea(area);
+                    return RedirectToAction("Index");
+                }
+
+                return View();
             }
             catch
             {
@@ -53,20 +53,33 @@ namespace PruebaTecnicaNET.Controllers
             }
         }
 
-        // GET: AreasController/Edit/5
-        public ActionResult Edit(int id)
+        public async Task<ActionResult> Edit(int id)
         {
-            return View();
+            var area = await _areaService.GetAreaById(id);
+            if (area != null)
+            {
+                var model = _mapper.Map<EditAreaRequest>(area);
+                return View(model);
+            }
+
+            return NotFound();
         }
 
-        // POST: AreasController/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
+        public async Task<ActionResult> Edit(EditAreaRequest editAreaRequest)
         {
             try
             {
-                return RedirectToAction(nameof(Index));
+                if (ModelState.IsValid)
+                {
+                    //mapeamos modelo
+                    var area = _mapper.Map<Area>(editAreaRequest);
+                    await _areaService.EditarArea(area);
+                    return RedirectToAction("Index");
+                }
+
+                return View();
             }
             catch
             {
@@ -74,20 +87,34 @@ namespace PruebaTecnicaNET.Controllers
             }
         }
 
-        // GET: AreasController/Delete/5
-        public ActionResult Delete(int id)
+        public async Task<ActionResult> Delete(int id)
         {
-            return View();
+            var area = await _areaService.GetAreaById(id);
+            if (area != null)
+            {
+                var model = _mapper.Map<DeleteAreaRequest>(area);
+                return View(model);
+            }
+
+            return NotFound();
         }
 
-        // POST: AreasController/Delete/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
+        public async Task<ActionResult> Delete(DeleteAreaRequest deleteAreaRequest)
         {
             try
             {
-                return RedirectToAction(nameof(Index));
+                var areaExist = await _areaService.GetAreaById(deleteAreaRequest.IdArea);
+                if (areaExist != null)
+                {
+                    var area = _mapper.Map<Area>(areaExist);
+                    await _areaService.EliminarArea(area);
+                    return RedirectToAction("Index");
+                }
+
+                return NotFound();
+                
             }
             catch
             {

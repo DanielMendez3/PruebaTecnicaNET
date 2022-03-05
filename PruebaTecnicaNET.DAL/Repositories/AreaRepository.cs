@@ -14,6 +14,24 @@ namespace PruebaTecnicaNET.DAL.Repositories
             this._examenContext = examenContext;
         }
 
+        public async Task CrearArea(Area area)
+        {
+            await _examenContext.Area.AddAsync(area);
+            await _examenContext.SaveChangesAsync();
+        }
+
+        public async Task EditarArea(Area area)
+        {
+            _examenContext.Entry(area).State = EntityState.Modified;
+            await _examenContext.SaveChangesAsync();
+        }
+
+        public async Task EliminarArea(Area area)
+        {
+             _examenContext.Area.Remove(area);
+            await _examenContext.SaveChangesAsync();
+        }
+
         public async Task<Area> GetAreaById(int id)
         {
             return await  _examenContext.Area.FirstOrDefaultAsync(x => x.IdArea == id);

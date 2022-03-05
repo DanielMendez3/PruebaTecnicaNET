@@ -6,10 +6,12 @@ namespace PruebaTecnicaNET.BLO.Services
 {
     public interface IEmpleadoService
     {
-        List<Empleado> GetAll();
+        Task<List<Empleado>> GetEmpleados();
 
-        Task<Empleado> AddAsync(Empleado empleado);
+        Task<Empleado> AgregarEmpleado(Empleado empleado);
 
-        Task<Empleado> UpdateAsync(Empleado empleado);
+        Task EditarEmpleado(Empleado empleado);
+        Task DeleteEmpleado(Empleado empleado);
+        Task<Empleado> GetEmpleadoById(int id);
     }
 }

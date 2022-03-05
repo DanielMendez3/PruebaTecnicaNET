@@ -7,10 +7,12 @@ namespace PruebaTecnicaNET.DAL.Repositories
 {
     public interface IEmpleadoRepository
     {
-        List<Empleado> GetAll();
+        Task<List<Empleado>> GetEmpleados();
 
-        Task<Empleado> AddAsync(Empleado empleado);
+        Task<Empleado> AddEmpleado(Empleado empleado);
 
-        Task<Empleado> UpdateAsync(Empleado empleado);
+        Task UpdateEmpleado(Empleado empleado);
+        Task DeleteEmpleado(Empleado empleado);
+        Task<Empleado> GetEmpleadoById(int id);
     }
 }

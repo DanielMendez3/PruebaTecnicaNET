@@ -15,19 +15,29 @@ namespace PruebaTecnicaNET.BLO.Services
             _empleadoRepository = empleadoRepository;
         }
 
-        public async Task<Empleado> AddAsync(Empleado empleado)
+        public async Task<Empleado> AgregarEmpleado(Empleado empleado)
         {
-            throw new NotImplementedException();
+            return await _empleadoRepository.AddEmpleado(empleado);
         }
 
-        public List<Empleado> GetAll()
+        public async Task DeleteEmpleado(Empleado empleado)
         {
-            return _empleadoRepository.GetAll();
+            await _empleadoRepository.DeleteEmpleado(empleado);
         }
 
-        public Task<Empleado> UpdateAsync(Empleado empleado)
+        public async Task EditarEmpleado(Empleado empleado)
         {
-            throw new NotImplementedException();
+           await _empleadoRepository.UpdateEmpleado(empleado);
+        }
+
+        public async Task<Empleado> GetEmpleadoById(int id)
+        {
+            return await _empleadoRepository.GetEmpleadoById(id);
+        }
+
+        public async Task<List<Empleado>> GetEmpleados()
+        {
+            return await _empleadoRepository.GetEmpleados();
         }
     }
 }

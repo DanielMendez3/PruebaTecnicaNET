@@ -9,5 +9,9 @@ namespace PruebaTecnicaNET.BLO.Services
         Task<Area> GetAreaById(int id);
 
         Task<List<Area>> GetAreas();
+
+        Task CrearArea(Area area);
+        Task EditarArea(Area area);
+        Task EliminarArea(Area area);
     }
 }

@@ -1,0 +1,110 @@
+﻿@model PruebaTecnicaNET.ViewModels.EmpleadosViewModel.CreateEmpleadoRequest
+
+@{
+    ViewData["Title"] = "Create";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="card p-6">
+    <h1 class="title is-4">Nueva Empleado</h1>
+
+    <h4 class="title is-6">Formulario</h4>
+    <hr />
+    <div class="columns">
+        <div class="column is-half">
+            <form asp-action="Create" enctype="multipart/form-data">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div class="field">
+                    <label asp-for="NombreCompleto" class="label">Nombre</label>
+                    <div class="control">
+                        <input asp-for="NombreCompleto" class="input is-success" type="text" placeholder="Ingrese nombres y apellidos">
+                    </div>
+                    <span asp-validation-for="NombreCompleto" class="help is-danger"></span>
+                </div>
+                <div class="field">
+                    <label asp-for="Cedula" class="label">Cédula</label>
+                    <div class="control">
+                        <input asp-for="Cedula" class="input is-success" type="text" placeholder="Ingrese su número de cédula">
+                    </div>
+                    <span asp-validation-for="Cedula" class="help is-danger"></span>
+                </div>
+                <div class="field">
+                    <label asp-for="Correo" class="label">Correo</label>
+                    <div class="control">
+                        <input asp-for="Correo" class="input is-success" type="text" placeholder="Ingrese su correo electrónico">
+                    </div>
+                    <span asp-validation-for="Correo" class="help is-danger"></span>
+                </div>
+                <div class="field">
+                    <label asp-for="IdArea" class="label">Área</label>
+                    <div class="select">
+                        @Html.DropDownList("IdArea", null, htmlAttributes: new { @class = "", @style = "text-transform: uppercase;" })
+                    </div>
+                    <span asp-validation-for="IdArea" class="help is-danger"></span>
+                </div>
+                <div class="field">
+                    <label asp-for="IdJefe" class="label">Jefe</label>
+                    <div class="select">
+                        @Html.DropDownList("IdJefe", null, htmlAttributes: new { @class = "", @style = "text-transform: uppercase;" })
+                    </div>
+                    <span asp-validation-for="IdJefe" class="help is-danger"></span>
+                </div>
+                <div class="field">
+                    <label asp-for="FechaNacimiento" class="label">Fecha de nacimiento</label>
+                    <div class="control">
+                        <input asp-for="FechaNacimiento" class="input is-success" type="date">
+                    </div>
+                    <span asp-validation-for="FechaNacimiento" class="help is-danger"></span>
+                </div>
+                <div class="field">
+                    <label asp-for="FechaIngreso" class="label">Fecha de ingreso</label>
+                    <div class="control">
+                        <input asp-for="FechaIngreso" class="input is-success" type="date">
+                    </div>
+                    <span asp-validation-for="FechaIngreso" class="help is-danger"></span>
+                </div>
+                <div id="file-js-example" class="file has-name">
+                    <label class="file-label">
+                        <input class="file-input" type="file" asp-for="Image">
+                        <span class="file-cta">
+                            <span class="file-icon">
+                                <i class="fas fa-upload"></i>
+                            </span>
+                            <span class="file-label">
+                                Choose a file…
+                            </span>
+                        </span>
+                        <span class="file-name">
+                            No file uploaded
+                        </span>
+                    </label>
+                    <span asp-validation-for="Image" class="help is-danger"></span>
+                </div>
+                <div class="field is-grouped mt-3">
+                    <p class="control">
+                        <button type="submit" class="button is-success">
+                            Guardar
+                        </button>
+                    </p>
+                    <p class="control">
+                        <a asp-action="Index" class="button is-dark">Cancelar</a>
+                    </p>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+@section Scripts {
+    <script>
+        const fileInput = document.querySelector('#file-js-example input[type=file]');
+        fileInput.onchange = () => {
+            if (fileInput.files.length > 0) {
+                const fileName = document.querySelector('#file-js-example .file-name');
+                fileName.textContent = fileInput.files[0].name;
+            }
+        }
+    </script>
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

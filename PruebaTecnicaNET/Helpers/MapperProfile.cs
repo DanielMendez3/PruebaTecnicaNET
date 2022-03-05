@@ -14,9 +14,25 @@ namespace PruebaTecnicaNET.Helpers
             //Map Area Entity
             CreateMap<AreaResponse, Area>().ReverseMap();
             CreateMap<CreateAreaRequest, Area>().ReverseMap();
+            CreateMap<EditAreaRequest, Area>().ReverseMap();
+            CreateMap<DeleteAreaRequest, Area>().ReverseMap();
 
-            //Map Empelado ENtity
+            //Map Empleado ENtity
             CreateMap<Empleado, EmpleadoResponse>();
+            CreateMap<CreateEmpleadoRequest, Empleado>();
+            CreateMap<DeleteEmpleadoRequest, Empleado>().ReverseMap();
+            CreateMap<Empleado, UpdateEmpleadoRequest>();
+            CreateMap<UpdateEmpleadoRequest, Empleado>()
+                .ForAllMembers(x => x.Condition(
+                    (src, dest, prop) =>
+                    {
+                        // ignoramos propiedades null
+                        if (prop == null) return false;
+                        if (prop.GetType() == typeof(string) && string.IsNullOrEmpty((string)prop)) return false;
+
+                        return true;
+                    }
+                ));
         }
     }
 }

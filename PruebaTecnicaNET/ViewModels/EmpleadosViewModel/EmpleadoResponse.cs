@@ -5,6 +5,7 @@ namespace PruebaTecnicaNET.ViewModels.EmpleadosViewModel
 {
     public class EmpleadoResponse
     {
+        [Display(Name = "Código Empleado")]
         public int IdEmpleado { get; set; }
         [Display(Name = "Nombre completo")]
         public string NombreCompleto { get; set; }
