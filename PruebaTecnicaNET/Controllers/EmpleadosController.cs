@@ -6,6 +6,7 @@ using PruebaTecnicaNET.BLO.Services;
 using PruebaTecnicaNET.DAL.Models;
 using PruebaTecnicaNET.Helpers;
 using PruebaTecnicaNET.ViewModels.EmpleadosViewModel;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
@@ -23,7 +24,7 @@ namespace PruebaTecnicaNET.Controllers
             _areaService = areaService;
             _mapper = mapper;
         }
-        // GET: EmpeladosController
+
         public async Task<ActionResult> Index()
         {
             var empleados = await _empleadoService.GetEmpleados();
@@ -31,10 +32,14 @@ namespace PruebaTecnicaNET.Controllers
             return View(viewModel);
         }
 
-        // GET: EmpeladosController/Details/5
         public async Task<ActionResult> Details(int id)
         {
-            return View();
+            var empleado = await _empleadoService.GetEmpleadoById(id);
+            var model = _mapper.Map<InfoEmpleadoResponse>(empleado);
+            model.Image = "data:image / png; base64," + Convert.ToBase64String(empleado.Foto);
+            model.YearsOld = _empleadoService.CalcularAnios(model.FechaNacimiento ?? DateTime.Today);
+            model.YearsWorked = _empleadoService.CalcularAnios(model.FechaIngreso);
+            return View(model);
         }
 
         // GET: EmpeladosController/Create
@@ -48,7 +53,6 @@ namespace PruebaTecnicaNET.Controllers
             return View();
         }
 
-        // POST: EmpeladosController/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Create([FromForm] CreateEmpleadoRequest createEmpleadoRequest)
@@ -86,7 +90,6 @@ namespace PruebaTecnicaNET.Controllers
             }
         }
 
-        // GET: EmpeladosController/Edit/5
         public async Task<ActionResult> Edit(int id)
         {
             var empleado = await _empleadoService.GetEmpleadoById(id);
@@ -105,7 +108,6 @@ namespace PruebaTecnicaNET.Controllers
             
         }
 
-        // POST: EmpeladosController/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Edit([FromForm] UpdateEmpleadoRequest updateEmpleadoRequest)

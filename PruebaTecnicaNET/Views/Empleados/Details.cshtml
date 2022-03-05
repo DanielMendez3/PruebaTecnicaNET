@@ -1,0 +1,78 @@
+﻿@model PruebaTecnicaNET.ViewModels.EmpleadosViewModel.InfoEmpleadoResponse
+
+@{
+    ViewData["Title"] = "Información";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="card p-6">
+    <h1 class="title is-4">Información de empleado</h1>
+
+    <h4 class="title is-6">Formulario</h4>
+    <hr />
+    <div class="columns">
+        <div class="column is-half">
+            <form asp-action="Create" enctype="multipart/form-data">
+                <div class="field">
+                    <label asp-for="NombreCompleto" class="label">Nombre</label>
+                    <div class="control">
+                        <input asp-for="NombreCompleto" class="input is-success" disabled type="text" placeholder="Ingrese nombres y apellidos">
+                    </div>
+                </div>
+                <div class="field">
+                    <label asp-for="Cedula" class="label">Cédula</label>
+                    <div class="control">
+                        <input asp-for="Cedula" class="input is-success" disabled type="text" placeholder="Ingrese su número de cédula">
+                    </div>
+                </div>
+                <div class="field">
+                    <label asp-for="Correo" class="label">Correo</label>
+                    <div class="control">
+                        <input asp-for="Correo" class="input is-success" disabled type="text" placeholder="Ingrese su correo electrónico">
+                    </div>
+                </div>
+                <div class="field">
+                    <label asp-for="Area" class="label">Área</label>
+                    <div class="select">
+                        <input asp-for="Area" class="input is-success" disabled type="text">
+                    </div>
+                </div>
+                <div class="field">
+                    <label asp-for="Jefe" class="label">Jefe</label>
+                    <div class="select">
+                        <input asp-for="Jefe" class="input is-success" disabled type="text">
+                    </div>
+                </div>
+                <div class="field">
+                    <label asp-for="FechaNacimiento" class="label">Nacimiento</label>
+                    <div class="control is-small">
+                        <input asp-for="FechaNacimiento" disabled class="input is-success" type="date">
+                    </div>
+                    <span class="tag is-info is-large">@Model.YearsOld Años</span>
+                </div>
+                <div class="field">
+                    <label asp-for="FechaIngreso" class="label">Reclutamiento</label>
+                    <div class="control">
+                        <input asp-for="FechaIngreso" disabled class="input is-success" type="date">
+                    </div>
+                    <span class="tag is-info is-large">@Model.YearsWorked Años</span>
+                </div>
+                <div class="field">
+                    <label asp-for="Image" class="label">Foto</label>
+                    <div class="control">
+                        <img src="@Model.Image" />
+                    </div>
+                </div>
+
+                <div class="field is-grouped mt-3">
+                    <p class="control">
+                        <a asp-action="Index" class="button is-dark">Cancelar</a>
+                    </p>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+
