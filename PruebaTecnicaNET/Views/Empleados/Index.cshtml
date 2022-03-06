@@ -5,12 +5,18 @@
 }
 
 
-<div class="container p-4">
+<div class="container p-4" id="content">
     <h2 class="title is-4">Listado de empleados</h2>
 
     <p>
         @Html.ActionLink("Nuevo Empleado", "Create", null, htmlAttributes: new { @class = "button is-success" })
     </p>
+    <div class="field">
+        <label class="label">Área</label>
+        <div class="select">
+            @Html.DropDownList("IdArea", null, htmlAttributes: new { @class = "", @style = "text-transform: uppercase;" })
+        </div>
+    </div>
     <table class="table is-striped mt-2 is-success">
         <thead>
             <tr>
@@ -29,29 +35,60 @@
                 <th></th>
             </tr>
         </thead>
-        <tbody>
+        <tbody id="tableBody">
             @foreach (var item in Model)
             {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.IdEmpleado)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.NombreCompleto)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Cedula)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Correo)
-                </td>
-                <td>
-                    @Html.ActionLink("Editar", "Edit", new { id = item.IdEmpleado }, new { @class = "button is-success" }) |
-                    @Html.ActionLink("Información", "Details", new { id = item.IdEmpleado }, new { @class = "button is-info" })|
-                    @Html.ActionLink("Borrar", "Delete", new { id = item.IdEmpleado }, new { @class = "button is-danger" })
-                </td>
-            </tr>
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.IdEmpleado)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.NombreCompleto)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Cedula)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Correo)
+                    </td>
+                    <td>
+                        @Html.ActionLink("Editar", "Edit", new { id = item.IdEmpleado }, new { @class = "button is-success" }) 
+                        @Html.ActionLink("Información", "Details", new { id = item.IdEmpleado }, new { @class = "button is-info" })
+                        @Html.ActionLink("Borrar", "Delete", new { id = item.IdEmpleado }, new { @class = "button is-danger" })
+                    </td>
+                </tr>
             }
         </tbody>
     </table>
 </div>
+
+<style>
+    .loading{
+        width:'100%';
+        height:50px;
+        text-align:center;
+    }
+</style>
+
+@section Scripts
+{
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
+    <script>
+        $(document).ready(function () {
+            $("#IdArea").change(function () {
+                $('#tableBody').html('<div class="loading"><img src="images/loader.gif" alt="loading" /><br/>Un momento, por favor...</div>');
+                $.get("/Empleados/GetEmpleadosByArea", { IdArea: $("#IdArea").val()}, function (data) {
+                    // VACIAMOS EL DropDownList
+                    $("#tableBody").empty();
+                    // CONSTRUIMOS EL DropDownList A PARTIR DEL RESULTADO Json (data)
+                    $.each(data, function (index, row) {
+                        $("#tableBody").append("<tr><td>" + row.idEmpleado + "</td><td>" + row.nombreCompleto + "</td><td>" + row.cedula + "</td><td>" + row.correo + "</td><td><a class='button is-success' href='/Empleados/Edit/" + row.idEmpleado + "'>Editar<//a>  <a class='button is-info' href='/Empleados/Details/" + row.idEmpleado + "'>Información<//a>  <a class='button is-danger' href='/Empleados/Delete/" + row.idEmpleado + "'>Borrar<//a>" + "</td></tr>")
+                    });
+                });
+            });
+        });
+    </script>
+}
+

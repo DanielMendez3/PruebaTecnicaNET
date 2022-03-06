@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 namespace PruebaTecnicaNET.BLO.Services
 {
     public interface IEmpleadoService
-    {
+    {        
         Task<List<Empleado>> GetEmpleados();
 
         Task<Empleado> AgregarEmpleado(Empleado empleado);

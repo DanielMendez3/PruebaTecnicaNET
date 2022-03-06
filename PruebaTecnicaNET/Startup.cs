@@ -6,6 +6,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using PruebaTecnicaNET.BLO.Interfaces;
 using PruebaTecnicaNET.BLO.Services;
 using PruebaTecnicaNET.DAL.Models;
 using PruebaTecnicaNET.DAL.Repositories;
@@ -33,9 +34,11 @@ namespace PruebaTecnicaNET
                     Configuration.GetConnectionString("DefaultConnection")));
             services.AddTransient<IAreaRepository, AreaRepository>();
             services.AddTransient<IEmpleadoRepository, EmpleadoRepository>();
+            services.AddTransient<IEmpleadoHabilidadRepository, EmpleadoHabilidadRepository>();
 
             services.AddTransient<IEmpleadoService, EmpleadoService>();
             services.AddTransient<IAreaService, AreaService>();
+            services.AddTransient<IEmpleadoHabilidadService, EmpleadoHabilidadService>();
 
             services.AddAutoMapper(typeof(Startup));
             services.AddControllersWithViews();

@@ -9,6 +9,7 @@ using PruebaTecnicaNET.ViewModels.EmpleadosViewModel;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace PruebaTecnicaNET.Controllers
@@ -29,7 +30,20 @@ namespace PruebaTecnicaNET.Controllers
         {
             var empleados = await _empleadoService.GetEmpleados();
             var viewModel = _mapper.Map<List<EmpleadoResponse>>(empleados);
+            var areas = await _areaService.GetAreas();
+            areas.Insert(0, new Area() { IdArea = 0, Nombre = "TODAS LAS ÁREAS" });
+            ViewBag.IdArea = new SelectList(areas, "IdArea", "Nombre");
             return View(viewModel);
+        }
+
+        public async Task<JsonResult> GetEmpleadosByArea(int IdArea)
+        {
+            var empleados = await _empleadoService.GetEmpleados();
+            if (IdArea != 0)
+                empleados = empleados.Where(x => x.IdArea == IdArea).ToList();
+
+            var viewModel = _mapper.Map<List<EmpleadoResponse>>(empleados);
+            return Json(viewModel);
         }
 
         public async Task<ActionResult> Details(int id)
