@@ -45,10 +45,14 @@ namespace PruebaTecnicaNET.Controllers
 
         private async Task<HabilidadEmpleadoViewModel> GetViewModel(int IdEmpleado)
         {
+            var empleado = await _empleadoService.GetEmpleadoById(IdEmpleado);
+            if (empleado == null)
+            {
+                return new HabilidadEmpleadoViewModel();
+            }
             var habilidades = await _empleadoHabilidadService.GetHabilidadesByEmpleadoId(IdEmpleado);
             var modelHabilidades = _mapper.Map<List<EmpleadoHabilidadesResponse>>(habilidades);
-            var empleado = await _empleadoService.GetEmpleadoById(IdEmpleado);
-            HabilidadEmpleadoViewModel model = new HabilidadEmpleadoViewModel();
+            HabilidadEmpleadoViewModel model = new HabilidadEmpleadoViewModel();           
             model.IdEmpleado = empleado.IdEmpleado;
             model.NombreEmpleado = empleado.NombreCompleto;
             model.EmpleadoHabilidades = modelHabilidades;

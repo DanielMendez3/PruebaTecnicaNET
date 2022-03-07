@@ -7,13 +7,17 @@
 
 <div class="container p-4">
     <h2 class="title is-4">Listado de Habilidades: @Model.NombreEmpleado</h2>
+    @if (Model.NombreEmpleado != null)
+    {
+        <p>
+            <button class="button is-success js-modal-trigger" data-target="modal-js-example">Agregar Habilidad</button>
+        </p>
+    }
+        <p>
+            <a class="button is-dark " href="/About/Index">Cancelar</a>
+        </p>
 
-    <p>
-        <button class="button is-success js-modal-trigger" data-target="modal-js-example">Agregar Habilidad</button>
-    </p>
-    <p>
-        <a class="button is-dark " href="/About/Index" >Cancelar</a>
-    </p>
+
     <table class="table is-striped mt-2 is-success">
         <thead>
             <tr>
@@ -24,18 +28,22 @@
             </tr>
         </thead>
         <tbody id="tableBody">
-            @foreach (var item in Model.EmpleadoHabilidades)
+            @if (Model.EmpleadoHabilidades != null)
             {
-                <tr>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.NombreHabilidad)
-                    </td>
-                    <td>
-                        <button class="button is-danger" onclick="DeleteHabilidad(@item.IdHabilidad)">Borrar</button>
-                        @*@Html.ActionLink("Borrar", "Delete", new { id = item.IdHabilidad }, new { @class = "button is-danger" })*@
-                    </td>
-                </tr>
+                @foreach (var item in Model.EmpleadoHabilidades)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.NombreHabilidad)
+                        </td>
+                        <td>
+                            <button class="button is-danger" onclick="DeleteHabilidad(@item.IdHabilidad)">Borrar</button>
+                            @*@Html.ActionLink("Borrar", "Delete", new { id = item.IdHabilidad }, new { @class = "button is-danger" })*@
+                        </td>
+                    </tr>
+                }
             }
+
         </tbody>
     </table>
 </div>

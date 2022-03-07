@@ -35,8 +35,12 @@ namespace PruebaTecnicaNET.BLO.Services
         public async Task<Empleado> GetEmpleadoById(int id)
         {
             var empleado = await _empleadoRepository.GetEmpleadoById(id);
-            empleado.IdJefeNavigation = await _empleadoRepository.GetEmpleadoById(empleado.IdJefe ?? 0);
-            empleado.IdAreaNavigation = await _areaRepository.GetAreaById(empleado.IdArea);
+            if (empleado != null)
+            {
+                empleado.IdJefeNavigation = await _empleadoRepository.GetEmpleadoById(empleado.IdJefe ?? 0);
+                empleado.IdAreaNavigation = await _areaRepository.GetAreaById(empleado.IdArea);
+            }
+           
             return empleado;
         }
 

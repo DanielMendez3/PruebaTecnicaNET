@@ -50,7 +50,9 @@ namespace PruebaTecnicaNET.Controllers
         {
             var empleado = await _empleadoService.GetEmpleadoById(id);
             var model = _mapper.Map<InfoEmpleadoResponse>(empleado);
-            model.Image = "data:image / png; base64," + Convert.ToBase64String(empleado.Foto);
+            if (empleado.Foto != null)
+                model.Image = "data:image / png; base64," + Convert.ToBase64String(empleado.Foto);
+
             model.YearsOld = _empleadoService.CalcularAnios(model.FechaNacimiento ?? DateTime.Today);
             model.YearsWorked = _empleadoService.CalcularAnios(model.FechaIngreso);
             return View(model);
@@ -194,7 +196,7 @@ namespace PruebaTecnicaNET.Controllers
             }
             catch
             {
-                return View();
+                return RedirectToAction("Index");
             }
         }
     }
