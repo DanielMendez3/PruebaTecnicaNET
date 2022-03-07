@@ -62,6 +62,7 @@
     </table>
 </div>
 
+
 <style>
     .loading{
         width:'100%';
@@ -80,9 +81,9 @@
             $("#IdArea").change(function () {
                 $('#tableBody').html('<div class="loading"><img src="images/loader.gif" alt="loading" /><br/>Un momento, por favor...</div>');
                 $.get("/Empleados/GetEmpleadosByArea", { IdArea: $("#IdArea").val()}, function (data) {
-                    // VACIAMOS EL DropDownList
+                    
                     $("#tableBody").empty();
-                    // CONSTRUIMOS EL DropDownList A PARTIR DEL RESULTADO Json (data)
+                    
                     $.each(data, function (index, row) {
                         $("#tableBody").append("<tr><td>" + row.idEmpleado + "</td><td>" + row.nombreCompleto + "</td><td>" + row.cedula + "</td><td>" + row.correo + "</td><td><a class='button is-success' href='/Empleados/Edit/" + row.idEmpleado + "'>Editar<//a>  <a class='button is-info' href='/Empleados/Details/" + row.idEmpleado + "'>Información<//a>  <a class='button is-danger' href='/Empleados/Delete/" + row.idEmpleado + "'>Borrar<//a>" + "</td></tr>")
                     });

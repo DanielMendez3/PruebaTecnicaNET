@@ -1,0 +1,174 @@
+﻿@model PruebaTecnicaNET.ViewModels.EmpleadosViewModel.HabilidadEmpleadoViewModel
+
+@{
+    ViewData["Title"] = "Habilidades";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container p-4">
+    <h2 class="title is-4">Listado de Habilidades: @Model.NombreEmpleado</h2>
+
+    <p>
+        <button class="button is-success js-modal-trigger" data-target="modal-js-example">Agregar Habilidad</button>
+    </p>
+    <p>
+        <a class="button is-dark " href="/About/Index" >Cancelar</a>
+    </p>
+    <table class="table is-striped mt-2 is-success">
+        <thead>
+            <tr>
+                <th>
+                    Habilidades
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody id="tableBody">
+            @foreach (var item in Model.EmpleadoHabilidades)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.NombreHabilidad)
+                    </td>
+                    <td>
+                        <button class="button is-danger" onclick="DeleteHabilidad(@item.IdHabilidad)">Borrar</button>
+                        @*@Html.ActionLink("Borrar", "Delete", new { id = item.IdHabilidad }, new { @class = "button is-danger" })*@
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+@* Modal de habilidades *@
+<div class="modal" id="modal-js-example" >
+    <div class="modal-background"></div>
+    <div class="modal-card">
+        <header class="modal-card-head">
+            <p class="modal-card-title">Nueva Habilidad</p>
+            <button class="delete" aria-label="close"></button>
+        </header>
+        <section class="modal-card-body">
+            <div class="box">
+                @Html.HiddenFor(m => m.IdEmpleado)
+                <div class="select">
+                    <select id="habilidades">
+                        <option>SQL SERVER</option>
+                        <option>VISUAL STUDIO</option>
+                        <option>ASP .NET</option>
+                        <option>ASP .NET CORE</option>
+                        <option>API REST</option>
+                        <option>AZURE APP SERVICE</option>
+                        <option>FLUTTER</option>
+                        <option>VUE</option>
+                        <option>AXIOS</option>
+                        <option>JAVASCRIPT</option>
+                        <option>EXCEL</option>
+                        <option>POWER BI</option>
+                    </select>
+                </div>
+            </div>
+        </section>
+        <footer class="modal-card-foot">
+            <button class="button is-success" id="guardarHabilidad">Guardar Cambios</button>
+            <button class="button">Cancel</button>
+        </footer>
+    </div>
+</div>
+
+@section Scripts
+{
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Functions to open and close a modal
+            function openModal($el) {
+                $el.classList.add('is-active');
+            }
+
+            function closeModal($el) {
+                $el.classList.remove('is-active');
+            }
+
+            function closeAllModals() {
+                (document.querySelectorAll('.modal') || []).forEach(($modal) => {
+                    closeModal($modal);
+                });
+            }
+
+            // Add a click event on buttons to open a specific modal
+            (document.querySelectorAll('.js-modal-trigger') || []).forEach(($trigger) => {
+                const modal = $trigger.dataset.target;
+                const $target = document.getElementById(modal);
+                console.log($target);
+
+                $trigger.addEventListener('click', () => {
+                    openModal($target);
+                });
+            });
+
+            // Add a click event on various child elements to close the parent modal
+            (document.querySelectorAll('.modal-background, .modal-close, .modal-card-head .delete, .modal-card-foot .button') || []).forEach(($close) => {
+                const $target = $close.closest('.modal');
+
+                $close.addEventListener('click', () => {
+                    closeModal($target);
+                });
+            });
+
+            // Add a keyboard event to close all modals
+            document.addEventListener('keydown', (event) => {
+                const e = event || window.event;
+
+                if (e.keyCode === 27) { // Escape key
+                    closeAllModals();
+                }
+            });
+        });
+    </script>
+    <script>
+    // Evento que envía una petición Ajax al servidor
+        $('#guardarHabilidad').click(function (e) {
+            var request = {
+                IdEmpleado: $("#IdEmpleado").val(),
+                NombreHabilidad: $("#habilidades option:selected").text(),
+            };
+
+
+            $.ajax({
+                url: "/About/AddNewHabilidad",
+                type: "POST",
+                dataType: 'text',
+                data: { json: JSON.stringify(request) },
+                success: function (data) {
+                    $("#tableBody").empty();
+                    $.each(JSON.parse(data), function (index, row) {
+                        console.log(row)
+                        $("#tableBody").append("<tr><td>" + row.nombreHabilidad + "</td><td> <button class='button is-danger' onclick='DeleteHabilidad(" + row.idHabilidad +")'>Borrar</button>" + "</td></tr>")
+                    });
+            }
+        });
+
+
+
+    });
+    </script>
+        <script>
+            async function DeleteHabilidad(value) {
+                var request = {
+                    IdEmpleado: $("#IdEmpleado").val(),
+                    IdHabilidad: value
+                };
+                $.ajax({
+                    url: "/About/DeleteHabilidad",
+                    type: "POST",
+                    dataType: 'text',
+                    data: { json: JSON.stringify(request) },
+                    success: function (data) {
+                        $("#tableBody").empty();
+                        $.each(JSON.parse(data), function (index, row) {
+                            $("#tableBody").append("<tr><td>" + row.nombreHabilidad + "</td><td> <button class='button is-danger' onclick='DeleteHabilidad(" + row.idHabilidad + ")'>Borrar</button>" + "</td></tr>")
+                        });
+                    }
+                });
+            };
+    </script>
+}

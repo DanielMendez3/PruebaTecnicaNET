@@ -6,6 +6,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Newtonsoft.Json.Serialization;
 using PruebaTecnicaNET.BLO.Interfaces;
 using PruebaTecnicaNET.BLO.Services;
 using PruebaTecnicaNET.DAL.Models;
@@ -42,6 +43,7 @@ namespace PruebaTecnicaNET
 
             services.AddAutoMapper(typeof(Startup));
             services.AddControllersWithViews();
+            
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

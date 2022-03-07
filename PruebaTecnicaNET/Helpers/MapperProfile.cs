@@ -22,6 +22,9 @@ namespace PruebaTecnicaNET.Helpers
             CreateMap<CreateEmpleadoRequest, Empleado>();
             CreateMap<DeleteEmpleadoRequest, Empleado>().ReverseMap();
             CreateMap<Empleado, UpdateEmpleadoRequest>();
+            CreateMap<EmpleadoHabilidad, EmpleadoHabilidadesResponse>();
+            CreateMap<NuevaHabilidadRequest, EmpleadoHabilidad>();
+            CreateMap<DeleteHabilidad, EmpleadoHabilidad>();
             CreateMap<Empleado, InfoEmpleadoResponse>()
                 .ForMember(dest => dest.Jefe,
                                 opt => opt.MapFrom(src => src.IdJefeNavigation != null ? src.IdJefeNavigation.NombreCompleto.ToUpper() : "Sin Jefe"))

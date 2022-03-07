@@ -20,34 +20,34 @@
                     @if (item.Jefe.Nivel > 1)
                     {
 
-                    <li>
-                        <a>
-                            <label>
-                                <span class="tag is-black">Jefe: @item.Jefe.Jefe</span>
-                                @Html.ActionLink("Habilidades", "Habilidades", new { id = item.Jefe.IdEmpleado }, new { @class = "button is-success" }) |
-                            </label>
-                        </a>
-                        <ul>
-                            @foreach (var e in item.Empleados)
-                            {
-                                <li>
-                                    <a>
-                                        <label >
-                                            <br />
-                                            @e.NombreCompleto
-                                        </label>
-                                    </a>
-                                </li>
-                            }
+                        <li>
+                            <a>
+                                <label>
+                                    @Html.ActionLink("Jefe:"+ @item.Jefe.Jefe, "Habilidades", new { IdEmpleado = item.Jefe.IdEmpleado }, new { @class = "button is-success" })
+                                </label>
+                            </a>
+                            <ul>
+                                @foreach (var e in item.Empleados)
+                                {
+                                    <li>
+                                        <a>
+                                            <label>
+                                                <br />
+                                                @Html.ActionLink(e.NombreCompleto, "Habilidades", new { IdEmpleado = e.IdEmpleado }, new { @class = "button is-info" })
+                                            </label>
+                                        </a>
+                                    </li>
+                                }
 
-                        </ul>
-                    </li>
+                            </ul>
+                        </li>
                     }
                 }
 
             </ul>
         </li>
     </ul>
+
 </div>
 
 
